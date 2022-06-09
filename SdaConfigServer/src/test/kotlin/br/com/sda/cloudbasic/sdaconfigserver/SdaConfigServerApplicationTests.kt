@@ -1,4 +1,4 @@
-package br.com.sda.cloudbasic.SdaConfigServer
+package br.com.sda.cloudbasic.sdaconfigserver
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
