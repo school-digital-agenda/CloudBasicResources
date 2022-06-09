@@ -33,7 +33,7 @@ val jar: Jar by tasks
 jar.enabled = false
 
 dependencies {
-    //implementation(project(":core"))
+    // implementation(project(":core"))
 
     implementation("org.springframework.boot:spring-boot-starter-undertow")
     implementation("org.springframework.boot:spring-boot-starter-actuator")

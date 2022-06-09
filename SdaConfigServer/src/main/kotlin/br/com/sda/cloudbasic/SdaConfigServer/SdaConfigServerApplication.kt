@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class SdaConfigServerApplication
 
 fun main(args: Array<String>) {
-	runApplication<SdaConfigServerApplication>(*args)
+    runApplication<SdaConfigServerApplication>(*args)
 }
