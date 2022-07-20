@@ -10,6 +10,14 @@ name: Push Deploy - Java CI with Gradle
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
+    inputs:
+      module_name:
+        description: 'Module to deploy (sda-config-server, sda-gateway)'
+        required: true
+        default: 'sda-config-server'
+      tags:
+        description: 'Module name to deploy'
 
 jobs:
   build:
@@ -54,5 +62,5 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
       run: |
-        ./gradlew api:docker
-        ./gradlew api:dockerPush
+        ./gradlew ${{ github.event.inputs.module_name }}:docker
+        ./gradlew ${{ github.event.inputs.module_name }}:dockerPush
