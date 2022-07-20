@@ -51,21 +51,13 @@ jobs:
       with:
         files: "${{ github.workspace }}/**/build/test-results/**/*.xml"
 
-    - name: Cerify environment
-      run: |
-        echo ${{ github.workspace }}
-        ls ${{ github.workspace }}
-        ls ${{ github.workspace }}/sda-config-server
-        ls ${{ github.workspace }}/sda-config-server/build/reports
-        ls ${{ github.workspace }}/sda-config-server/build/reports/jacoco/test
-
     - name: Add coverage to PR
       id: jacoco
       uses: madrapps/jacoco-report@v1.2
       with:
         paths: |
-          "${{ github.workspace }}/sda-config-server/build/reports/jacoco/test/jacocoTestReport.xml",
-          "${{ github.workspace }}/sda-gateway/build/reports/jacoco/test/jacocoTestReport.xml"
+          ${{ github.workspace }}/sda-config-server/build/reports/jacoco/test/jacocoTestReport.xml,
+          ${{ github.workspace }}/sda-gateway/build/reports/jacoco/test/jacocoTestReport.xml
         token: ${{ secrets.GITHUB_TOKEN }}
         min-coverage-overall: 10
         min-coverage-changed-files: 10
