@@ -1,20 +1,33 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.6.21"
-    kotlin("kapt") version "1.6.21"  apply false
-    kotlin("plugin.noarg") version "1.6.21"  apply false
-    kotlin("plugin.spring") version "1.6.21"  apply false
-    id("java-library")
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    id("org.springframework.boot") version "2.7.0" apply false
-    id("org.jlleitschuh.gradle.ktlint") version "10.2.1" apply false
-    id("com.gorylenko.gradle-git-properties") version "2.4.0" apply false
+    val kotlinVersion = "1.7.10"
+
+    kotlin("jvm") version kotlinVersion
+    kotlin("plugin.spring") version kotlinVersion
+    kotlin("plugin.noarg") version kotlinVersion
+    kotlin("plugin.jpa") version kotlinVersion
+    // id("java-library")
+    id("io.spring.dependency-management") version "1.0.12.RELEASE"
+    id("org.springframework.boot") version "2.7.1"
+    id("io.gitlab.arturbosch.detekt") version "1.20.0"
+    id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
+    // id("org.flywaydb.flyway") version "8.5.11"
+    id("com.gorylenko.gradle-git-properties") version "2.4.1"
+    id("jacoco")
+    id("com.palantir.docker") version "0.33.0" apply false
 }
 
 group = "br.com.sda.cloudbasic"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
+
+tasks.bootJar {
+    enabled = false
+}
+tasks.jar {
+    enabled = false
+}
 
 extra["springCloudVersion"] = "2021.0.3"
 extra["junitVersion"] = "5.8.2"
@@ -23,47 +36,21 @@ extra["mockkVersion"] = "1.12.3"
 extra["springMockkVersion"] = "3.1.1"
 extra["generexVersion"] = "1.0.2"
 
-subprojects {
-    apply(plugin = "org.jetbrains.kotlin.jvm")
-    apply(plugin = "io.spring.dependency-management")
-    apply(plugin = "java-library")
-
+allprojects {
     repositories {
         mavenCentral()
     }
+}
 
-    dependencies {
-        implementation("org.jetbrains.kotlin:kotlin-reflect")
-        implementation("org.jetbrains.kotlin:kotlin-stdlib")
-
-        implementation("org.springframework.cloud:spring-cloud-starter")
-        implementation("org.springframework.cloud:spring-cloud-starter-sleuth")
-
-        implementation("io.github.microutils:kotlin-logging:${rootProject.property("kotlinLoggingVersion")}")
-
-        testImplementation("io.mockk:mockk:${rootProject.property("mockkVersion")}")
-        testImplementation("com.ninja-squad:springmockk:${rootProject.property("springMockkVersion")}")
-        testImplementation("org.springframework.boot:spring-boot-starter-test")
-        testImplementation("org.springframework.cloud:spring-cloud-contract-wiremock")
-        testImplementation("com.github.mifmif:generex:${rootProject.property("generexVersion")}")
-
-        annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-    }
-
-    dependencyManagement {
-        imports {
-            mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
-        }
-    }
-
+subprojects {
     tasks.withType<KotlinCompile> {
         kotlinOptions {
             freeCompilerArgs = listOf("-Xjsr305=strict")
             jvmTarget = "17"
         }
     }
+}
 
-    tasks.withType<Test> {
-        useJUnitPlatform()
-    }
+dependencies {
+    implementation("org.postgresql:postgresql")
 }

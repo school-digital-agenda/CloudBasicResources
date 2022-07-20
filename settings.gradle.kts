@@ -1,4 +1,4 @@
 rootProject.name = "CloudBasicResources"
 
-include("SdaConfigServer")
-include("SdaGateway")
+include("sda-config-server")
+include("sda-gateway")

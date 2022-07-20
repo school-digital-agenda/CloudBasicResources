@@ -10,9 +10,9 @@ ext["generexVersion"] = "1.0.2"
 
 plugins {
     kotlin("jvm") version "1.6.21"
-    kotlin("kapt") version "1.6.21"  apply false
-    kotlin("plugin.noarg") version "1.6.21"  apply false
-    kotlin("plugin.spring") version "1.6.21"  apply false
+    kotlin("kapt") version "1.6.21" apply false
+    kotlin("plugin.noarg") version "1.6.21" apply false
+    kotlin("plugin.spring") version "1.6.21" apply false
     id("java-library")
     id("org.jlleitschuh.gradle.ktlint") version "10.2.1" apply false
     id("org.springframework.boot") version "2.6.7" apply false
@@ -124,6 +124,5 @@ subprojects {
             useJUnitPlatform()
             finalizedBy(tasks.jacocoTestCoverageVerification)
         }
-
     }
 }
