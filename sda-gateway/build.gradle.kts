@@ -30,7 +30,7 @@ configurations {
 }
 
 tasks.bootJar {
-    enabled = false
+    enabled = true
 }
 tasks.jar {
     enabled = false

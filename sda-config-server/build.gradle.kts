@@ -30,7 +30,7 @@ configurations {
 }
 
 tasks.bootJar {
-    enabled = false
+    enabled = true
 }
 tasks.jar {
     enabled = false
@@ -161,7 +161,7 @@ tasks.jacocoTestCoverageVerification {
 }
 
 val ecrRegistry = System.getenv("ECR_REGISTRY") ?: project.group
-val ecrRepository = System.getenv("ECR_REPOSITORY") ?: "${project.name}"
+val ecrRepository = System.getenv("ECR_REPOSITORY") ?: project.name
 
 docker {
     name = "$ecrRegistry/$ecrRepository:${project.version}"
