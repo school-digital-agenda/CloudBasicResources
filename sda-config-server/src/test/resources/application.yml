@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    config:
+      enabled: false
+      server:
+        git:
+          uri: "file:/${classpath:}/stubs/config-server"
+  security:
+    enabled: false
