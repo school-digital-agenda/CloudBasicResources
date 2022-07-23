@@ -9,7 +9,7 @@ plugins {
     kotlin("plugin.jpa") version kotlinVersion
     // id("java-library")
     id("io.spring.dependency-management") version "1.0.12.RELEASE"
-    id("org.springframework.boot") version "2.7.1"
+    id("org.springframework.boot") version "2.7.2"
     id("io.gitlab.arturbosch.detekt") version "1.21.0"
     id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
     // id("org.flywaydb.flyway") version "8.5.11"
