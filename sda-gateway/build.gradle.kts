@@ -14,8 +14,6 @@ plugins {
     id("com.palantir.docker")
 }
 
-group = "${rootProject.group}.${project.name}"
-version = rootProject.version
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 springBoot {
