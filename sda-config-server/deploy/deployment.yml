@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sda-config-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sda-config-server
+  template:
+    metadata:
+      name: sda-config-server
+      labels:
+        app: sda-config-server
+    spec:
+      containers:
+        - name: sda-config-server
+          image: 271037588257.dkr.ecr.us-east-1.amazonaws.com/sda-config-server:0.0.1-SNAPSHOT
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
+          volumeMounts:
+            - name: secret-volume
+              readOnly: true
+              mountPath: "/etc/secret-volume"
+      volumes:
+        - name: secret-volume
+          secret:
+            secretName: git-config-repo-credentials
+            optional: false
