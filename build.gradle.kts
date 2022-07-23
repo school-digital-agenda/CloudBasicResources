@@ -15,7 +15,7 @@ plugins {
     // id("org.flywaydb.flyway") version "8.5.11"
     id("com.gorylenko.gradle-git-properties") version "2.4.1"
     id("jacoco")
-    id("com.palantir.docker") version "0.33.0" apply false
+    id("com.palantir.docker") version "0.34.0" apply false
 }
 
 group = "br.com.sda.cloudbasic"
