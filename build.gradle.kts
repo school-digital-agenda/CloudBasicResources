@@ -43,6 +43,9 @@ allprojects {
 }
 
 subprojects {
+    group = "${rootProject.group}.${project.name}"
+    version = rootProject.version
+
     tasks.withType<KotlinCompile> {
         kotlinOptions {
             freeCompilerArgs = listOf("-Xjsr305=strict")
