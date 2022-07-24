@@ -61,3 +61,15 @@ jobs:
       run: |
         ./gradlew ${{ github.event.inputs.module_name }}:docker
         ./gradlew ${{ github.event.inputs.module_name }}:dockerPush
+
+    - name: Deploy to cluster
+      uses: nickgronow/kubectl@master
+      with:
+        config_data: ${{ secrets.KUBE_CONFIG }}
+        args: set image --record ${{ github.event.inputs.module_name }}/deploy/deployment.yml sda-config-server=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:LATEST
+
+    - name: Verify deployment
+      uses: nickgronow/kubectl@master
+      with:
+        config_data: ${{ secrets.KUBE_CONFIG }}
+        args: '"rollout status ${{ github.event.inputs.module_name }}/deploy/deployment.yml"'
