@@ -62,14 +62,19 @@ jobs:
         ./gradlew ${{ github.event.inputs.module_name }}:docker
         ./gradlew ${{ github.event.inputs.module_name }}:dockerPush
 
-    - name: Deploy to cluster
-      uses: nickgronow/kubectl@master
+    - name: deploy to cluster
+      uses: kodermax/kubectl-aws-eks@master
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ${{ github.event.inputs.module_name }}
+        IMAGE_TAG: ${{ github.sha }}
       with:
-        config_data: ${{ secrets.KUBE_CONFIG }}
-        args: set image --record ${{ github.event.inputs.module_name }}/deploy/deployment.yml sda-config-server=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:LATEST
-
-    - name: Verify deployment
-      uses: nickgronow/kubectl@master
+        args: set image deployment/$ECR_REPOSITORY $ECR_REPOSITORY=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        
+    - name: verify deployment
+      uses: kodermax/kubectl-aws-eks@master
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
       with:
-        config_data: ${{ secrets.KUBE_CONFIG }}
-        args: '"rollout status ${{ github.event.inputs.module_name }}/deploy/deployment.yml"'
+        args: rollout status deployment/my-app
