@@ -19,14 +19,46 @@ spec:
           ports:
             - containerPort: 8080
           env:
+            - name: JAVA_OPTS
+              value: "XX:+UseZGC -XX:+UseStringDeduplication"
             - name: SPRING_PROFILES_ACTIVE
               value: prod
           volumeMounts:
             - name: secret-volume
               readOnly: true
               mountPath: "/etc/secret-volume"
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "mkdir -p ~/.ssh && cp /etc/secret-volume/* ~/.ssh"]
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 60
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 60
       volumes:
         - name: secret-volume
           secret:
             secretName: git-config-repo-credentials
             optional: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sda-config-server
+spec:
+  type: NodePort
+  selector:
+    app: sda-config-server
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+      nodePort: 31231
