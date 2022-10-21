@@ -8,7 +8,7 @@ plugins {
     kotlin("plugin.noarg") version kotlinVersion
     kotlin("plugin.jpa") version kotlinVersion
     // id("java-library")
-    id("io.spring.dependency-management") version "1.0.12.RELEASE"
+    id("io.spring.dependency-management") version "1.1.0"
     id("org.springframework.boot") version "2.7.2"
     id("io.gitlab.arturbosch.detekt") version "1.21.0"
     id("org.jlleitschuh.gradle.ktlint") version "10.3.0"
